@@ -25,6 +25,7 @@ class Training:
     """Базовый класс тренировки."""
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
+    MIN_IN_HOUR: int = 60
 
     def __init__(self,
                  action: int,
@@ -80,7 +81,8 @@ class Running(Training):
         mean_speed = self.get_mean_speed()
         return ((self.CALORIES_MEAN_SPEED_MULTIPLIER
                 * mean_speed + self.CALORIES_MEAN_SPEED_SHIFT)
-                * self.weight / self.M_IN_KM * self.duration)
+                * self.weight / self.M_IN_KM
+                * self.duration * self.MIN_IN_HOUR)
 
 
 class SportsWalking(Training):
@@ -88,6 +90,7 @@ class SportsWalking(Training):
     WEIGHT_K1 = 0.035
     WEIGHT_K2 = 0.029
     SPEED_K1 = 0.278
+    CM_IN_M = 100
 
     def __init__(self,
                  action: int,
@@ -105,9 +108,9 @@ class SportsWalking(Training):
         mean_speed = self.get_mean_speed()
         speed_in_ms = mean_speed * self.SPEED_K1
         return (self.WEIGHT_K1 * self.weight
-                + (speed_in_ms**2 / self.height)
+                + (speed_in_ms**2 / self.height / self.CM_IN_M)
                 * (self.WEIGHT_K2 * self.weight)
-                * self.duration)
+                * self.duration * self.MIN_IN_HOUR)
 
 
 class Swimming(Training):
@@ -141,7 +144,7 @@ class Swimming(Training):
         return (self.length_pool
                 * (self.count_pool)
                 / (self.M_IN_KM)
-                / self.duration)
+                / self.duration * self.MIN_IN_HOUR)
 
 
 training_codes: dict = {
