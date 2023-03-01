@@ -110,7 +110,7 @@ class SportsWalking(Training):
         return (self.WEIGHT_K1 * self.weight
                 + (speed_in_ms**2 / self.height / self.CM_IN_M)
                 * (self.WEIGHT_K2 * self.weight)
-                * self.duration * self.MIN_IN_HOUR)
+                * self.duration)
 
 
 class Swimming(Training):
@@ -142,9 +142,9 @@ class Swimming(Training):
 
     def get_mean_speed(self) -> float:
         return (self.length_pool
-                * (self.count_pool)
-                / (self.M_IN_KM)
-                / self.duration * self.MIN_IN_HOUR)
+                * self.count_pool
+                / self.M_IN_KM
+                / self.duration)
 
 
 training_codes: dict = {
