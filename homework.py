@@ -71,7 +71,6 @@ class Running(Training):
     CALORIES_MEAN_SPEED_SHIFT: float = 1.79
 
     def get_spent_calories(self) -> float:
-        """Получить количество затраченных калорий."""
         mean_speed = self.get_mean_speed()
         return ((self.CALORIES_MEAN_SPEED_MULTIPLIER
                 * mean_speed + self.CALORIES_MEAN_SPEED_SHIFT)
@@ -99,7 +98,6 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
-        """Получить количество затраченных калорий."""
         mean_speed = self.get_mean_speed()
         speed_in_ms = mean_speed * self.SPEED_K1
         height_in_m = self.height / self.CM_IN_M
@@ -113,7 +111,7 @@ class SportsWalking(Training):
 class Swimming(Training):
     """Тренировка: плавание."""
 
-    LEN_STEP: float = 1.38
+    LEN_STEP = 1.38
     SPEED_MULTIPLIER_K1: float = 1.1
     SPEED_MULTIPLIER_K2: int = 2
 
@@ -156,7 +154,7 @@ def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     class_type = workout_type_traning[workout_type]
     if workout_type not in workout_type_traning:
-        raise Exception('Неизвестный тип')
+        raise ValueError('Неизвестный тип')
     return class_type(*data)
 
 
